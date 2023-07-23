@@ -1,0 +1,510 @@
+{% load static %}
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+      integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N"
+      crossorigin="anonymous"
+    />
+    <!-- Jquery -->
+
+    <link
+      rel="stylesheet"
+      href="{% static 'staticcss/MyStyleUserPanel.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'staticcss/PicStyle.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'staticcss/ResponsiveStyleMainPage.css' %}"
+    />
+    <title>UserPanel</title>
+  </head>
+  <body>
+    <!-- Top Comercial -->
+    {% for item in picOfTopCommercial %} {% if mainLocation == 'مکان شما' %}
+    <a href="/Category/{{item.image_ProductCategory.slug}}" id="topComercial">
+      <img src="/media/{{item.image}}" id="topCommercialPic" />
+    </a>
+    {% else %}
+    <a
+      href="/{{mainLocationEnglish}}/Category/{{item.image_ProductCategory.slug}}"
+      id="topComercial"
+    >
+      <img src="/media/{{item.image}}" id="topCommercialPic" />
+    </a>
+    {% endif %} {% endfor %}
+    <!-- HeaderPart -->
+    <header id="headerWrapper">
+      <div id="wrappeRight">
+        <!-- Logo part -->
+        <div id="logoStyle" style="cursor: pointer">
+          {% if mainLocation == 'مکان شما' %}
+          <img
+            src="{% static 'staticsvg/BestTick Logo (2).svg' %}"
+            id="LogoIcon"
+            onclick="location.href='/'"
+          />
+          {% else %}
+          <img
+            src="{% static 'staticsvg/BestTick Logo (2).svg' %}"
+            id="LogoIcon"
+            onclick="location.href='/{{mainLocationEnglish}}/'"
+          />
+          {% endif %}
+        </div>
+
+        <!-- Menu Button -->
+        <button
+          type="menu"
+          class="btn"
+          id="menuBtn"
+          onclick="clickingmenuButton()"
+        >
+          <img
+            src="{% static 'staticsvg/menu-svgrepo-com-3.svg' %}"
+            id="menuIconStyle"
+          />
+          <img
+            src="{% static 'staticsvg/cross-svgrepo-com1.svg' %}"
+            id="crossIconStyle"
+          />
+        </button>
+
+        <!-- Location Button Part -->
+        <div id="wrapperLocationList">
+          <ul id="locationList">
+            {% for location in mylocations %}
+            <a
+              href="/{{location.slug}}/"
+              class="locationItemTag"
+              onclick="sendingSelectedLocation('{{location.name}}')"
+            >
+              <li class="locationItem">{{location.name}}</li>
+            </a>
+
+            {% endfor %}
+          </ul>
+
+          <button
+            type="button"
+            class="btn"
+            id="dropdownLocationBtn"
+            onclick="clickingdropdownLocationBtn()"
+          >
+            {% if mainLocation == 'مکان شما' %} مکان شما {% else %}
+            {{mainLocation}} {% endif %}
+            <img
+              src="{% static 'staticsvg/dropdown-svgrepo-com.svg' %}"
+              id="dropdownIcon"
+            />
+          </button>
+        </div>
+
+        <!-- SearchBox Part -->
+        <input
+          type="search"
+          name="Search"
+          class="btn"
+          id="SearchBox"
+          placeholder="جستجو کنید"
+          onkeyup="searchingProcess()"
+        />
+        <button class="btn" id="SearchBtnStyle" onclick="clickingSearchBtn()">
+          <img
+            src="{% static 'staticsvg/search-svgrepo-com.svg' %}"
+            id="SerachIconStyle"
+          />
+        </button>
+        <ul id="wrapperTotalListSearch">
+          <!-- <li class="listBoxSearchItem">
+              <a href="ww." class="listSearchItem">خانه</a>
+            </li> -->
+        </ul>
+      </div>
+      <div id="wrapperLeft">
+        <!-- Shopping Button Part -->
+        {% if mainLocation == 'مکان شما' %}
+        <button
+          class="btn"
+          id="ShoppingBagBtn"
+          onclick="location.href='/User/ShoppingCart'"
+        >
+          <img
+            src="{% static 'staticsvg/shopping-bag-svgrepo-com.svg' %}"
+            id="ShoppingBagIconStyle"
+            alt="ShoppingCartButton"
+          />
+          <div class="makingRedCircle" id="quantityOfProductAdded"></div>
+        </button>
+        {% else %}
+        <button
+          class="btn"
+          id="ShoppingBagBtn"
+          onclick="location.href='/{{mainLocationEnglish}}/User/ShoppingCart'"
+        >
+          <img
+            src="{% static 'staticsvg/shopping-bag-svgrepo-com.svg' %}"
+            id="ShoppingBagIconStyle"
+            alt="ShoppingCartButton"
+          />
+          <div class="makingRedCircle" id="quantityOfProductAdded"></div>
+        </button>
+        {% endif %}
+
+        <!-- Sign In & Sign Up -->
+        {% if user.is_authenticated == False and mainLocation == 'مکان شما' %}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/customer/login/'"
+        >
+          ورود / ثبت نام
+        </button>
+        {% elif user.is_authenticated == False and mainLocation != 'مکان شما' %}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/{{mainLocationEnglish}}/customer/login/'"
+        >
+          ورود / ثبت نام
+        </button>
+        {% elif user.is_authenticated == True and mainLocation == 'مکان شما' %}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/User/Dashboard/'"
+        >
+          {{user.username}}
+        </button>
+        {% elif user.is_authenticated == True and mainLocation != 'مکان شما' %}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/{{mainLocationEnglish}}/User/Dashboard/'"
+        >
+          {{user.username}}
+        </button>
+        {% endif %}
+      </div>
+    </header>
+
+    <!-- Menu Side -->
+    <div id="wrapperTotal">
+      <div id="wrapperMenuSide">
+        <p id="categoryText">دسته بندی</p>
+        <ul id="boxMenuActivity">
+          {% if mainLocation == 'مکان شما' %}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('PricePic')"
+            id="bestTickOfTheDayCategory"
+            value="1"
+            onclick="sendingDataOfCategoryToCategoryPage('bestTickOfTheDayCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Price_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="PricePic"
+            /><a href="/Categories/BestTickOfToday/">بست تیک های امروز</a>
+          </li>
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('ClockPic')"
+            id="lastMinutesTicketsCategory"
+            value="2"
+            onclick="sendingDataOfCategoryToCategoryPage('lastMinutesTicketsCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Clock_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="ClockPic"
+            /><a href="/Categories/LastMomentTick/">لحظه آخری</a>
+          </li>
+          {% for item in categoryOfProducts%}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('{{item.slug}}Pic')"
+            id="{{item.slug}}Category"
+          >
+            <img
+              src="/media/{{item.image}}"
+              class="picOfSideMenu"
+              id="{{item.slug}}Pic"
+            /><a href="/Category/{{item.slug}}/">{{item.name}}</a>
+          </li>
+          {% endfor %}
+
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('DiscountPic')"
+            id="salesCodeCategory"
+            value="8"
+            onclick="sendingDataOfCategoryToCategoryPage('salesCodeCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Discount_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="DiscountPic"
+            /><a href="/Category/Discount/">کد تخفیف</a>
+          </li>
+          {% else %}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('PricePic')"
+            id="bestTickOfTheDayCategory"
+            value="1"
+            onclick="sendingDataOfCategoryToCategoryPage('bestTickOfTheDayCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Price_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="PricePic"
+            /><a href="/{{mainLocationEnglish}}/Categories/BestTickOfToday/"
+              >بست تیک های امروز</a
+            >
+          </li>
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('ClockPic')"
+            id="lastMinutesTicketsCategory"
+            value="2"
+            onclick="sendingDataOfCategoryToCategoryPage('lastMinutesTicketsCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Clock_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="ClockPic"
+            /><a href="/{{mainLocationEnglish}}/Categories/LastMomentTick/"
+              >لحظه آخری</a
+            >
+          </li>
+          {% for item in categoryOfProducts%}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('{{item.slug}}Pic')"
+            id="{{item.slug}}Category"
+          >
+            <img
+              src="/media/{{item.image}}"
+              class="picOfSideMenu"
+              id="{{item.slug}}Pic"
+            /><a href="/{{mainLocationEnglish}}/Category/{{item.slug}}/"
+              >{{item.name}}</a
+            >
+          </li>
+          {% endfor %}
+
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('DiscountPic')"
+            id="salesCodeCategory"
+            value="8"
+            onclick="sendingDataOfCategoryToCategoryPage('salesCodeCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Discount_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="DiscountPic"
+            /><a href="/{{mainLocationEnglish}}/Category/Discount/">کد تخفیف</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- User Panel Total Part -->
+    <article class="wrapperTotalPanelUser">
+      <div class="wrapperTotalTitlePartPanel">
+        <p id="userNameStyleTitle">{{user.username}} خوش آمدید</p>
+        <div id="wrapperTwoLinksExitAndChangePass">
+          <!-- <a href="#" id="changePassStyle">تغییر رمز عبور</a> -->
+          {% if mainLocation == 'مکان شما' %}
+          <a href="/customer/logout/" id="exitStyle">خروج</a>
+          {%else%}
+          <a href="/{{mainLocationEnglish}}/customer/logout/" id="exitStyle"
+            >خروج</a
+          >
+          {%endif%}
+        </div>
+      </div>
+
+      <div class="wrapperTotalBodyMainPanelStyle">
+        <ul class="wrapperChoiceListUser">
+          <li
+            class="ChoiceItemList"
+            id="boxOne"
+            onmouseover="animatingPics('profileIcon')"
+            onclick="clickingPanelItem('boxOne','choiceItemStyleOne','boxTwo','boxThree','wrapperFormEditingProfile','wrapperFormBestTickThatIbought','wrapperFormMyTransaction')"
+          >
+            <img
+              src="{% static 'staticpic/perspective_matte-User-59-128x128.png' %}"
+              class="IconStyleForUserPanel"
+              id="profileIcon"
+            />
+            <a class="choiceItemStyle" id="choiceItemStyleOne">نمایش پروفایل</a>
+          </li>
+          <li
+            class="ChoiceItemList"
+            id="boxTwo"
+            onmouseover="animatingPics('myBestTickIcon')"
+            onclick="clickingPanelItem('boxTwo','choiceItemStyleTwo','boxOne','boxThree','wrapperFormBestTickThatIbought','wrapperFormEditingProfile','wrapperFormMyTransaction')"
+          >
+            <img
+              src="{% static 'staticpic/Price_perspective_matte.png' %}"
+              class="IconStyleForUserPanel"
+              id="myBestTickIcon"
+            />
+            <a class="choiceItemStyle" id="choiceItemStyleTwo">بست تیکهای من</a>
+          </li>
+          <li
+            class="ChoiceItemList"
+            id="boxThree"
+            onmouseover="animatingPics('TransactionCardIcon')"
+            onclick="clickingPanelItem('boxThree','choiceItemStyleThree','boxOne','boxTwo','wrapperFormMyTransaction','wrapperFormBestTickThatIbought','wrapperFormEditingProfile')"
+          >
+            <img
+              src="{% static 'staticpic/perspective_matte-TransactionCard-11-128x128.png' %}"
+              class="IconStyleForUserPanel"
+              id="TransactionCardIcon"
+            />
+            <a class="choiceItemStyle" id="choiceItemStyleThree"
+              >تراکنش های من</a
+            >
+          </li>
+        </ul>
+
+        <div class="wrapperTotalFormsAndDatas">
+          <!-- Profile Editing Part -->
+          <form action="" class="hiddenFormStyle wrapperFormEditingProfile">
+            <div class="wrapperTotalRowOne">
+              <div class="wrapperTotalInput">
+                <label for="fname" class="styleForLabels">نام کاربری</label>
+                <input
+                  type="text"
+                  id="fname"
+                  name="firstName"
+                  class="btn styleForInputs"
+                  value="{{user.username}}"
+                  disabled
+                />
+              </div>
+
+              <!-- <div class="wrapperTotalInput">
+                <label for="lname" class="styleForLabels">رمز عبور</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="btn styleForInputs"
+                  value="{{user.password}}"
+                />
+              </div> -->
+            </div>
+            <!-- <div class="wrapperTotalPhone">
+              <label for="lname" class="styleForLabels">تلفن همراه</label>
+              <input
+                type="text"
+                id="lname"
+                name="lastName"
+                class="btn styleForInputs"
+                value=" تلفن همراه مورد نظر"
+              />
+            </div> -->
+            <div class="wrapperTotalPhone">
+              <label for="lname" class="styleForLabels">ایمیل</label>
+              <input
+                type="text"
+                id="lname"
+                name="lastName"
+                class="btn styleForInputs"
+                value="{{user.email}}"
+                disabled
+              />
+            </div>
+
+            <!-- <div class="wrapperTotalRowOne">
+              <select id="city" name="country" class="Dropdownstyle btn">
+                <option value="محل سکونت">محل سکونت</option>
+                <option value="اردبیل">اردبیل</option>
+                <option value="اصفهان">اصفهان</option>
+                <option value="تهران" selected>تهران</option>
+                <option value="تبریز">تبریز</option>
+                <option value="مشهد">مشهد</option>
+                <option value="شهرهای شمالی">شهرهای شمالی</option>
+                <option value="قزوین">قزوین</option>
+                <option value="اهواز">اهواز</option>
+                <option value="همدان">همدان</option>
+              </select>
+
+              <button class="btn submitAllChanges">ثبت تغییرات</button>
+            </div> -->
+          </form>
+          <!-- Best Tick I bought Part -->
+          <form
+            action=""
+            class="hiddenFormStyle wrapperFormBestTickThatIbought"
+          >
+            <table class="tableStyle">
+              <tr>
+                <th>بست تیک</th>
+                <th>تاریخ خرید</th>
+                <th>تعداد</th>
+                <th>مبلغ پرداختی (تومان)</th>
+                <th>کد محصول</th>
+                <th>وضعیت</th>
+              </tr>
+            </table>
+          </form>
+          <form action="" class="hiddenFormStyle wrapperFormMyTransaction">
+            <table class="tableStyle">
+              <tr>
+                <th>تاریخ</th>
+                <th>کد سفارش</th>
+                <th>مبلغ (تومان)</th>
+                <th>توضیح</th>
+                <th>خرید از طریق</th>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </article>
+
+    <!-- footer part -->
+    <footer id="footerStyle">
+      <div id="footerPartOne">
+        <div id="wrapperBoxOne">
+          <p><strong>پشتیبانی</strong> : 42024 - 021</p>
+          <p><strong>شرکت</strong> : 88575757 - 021</p>
+        </div>
+
+        <div id="wrapperBoxTwo">
+          <img src="{% static 'staticpic/نماد اعتماد.png' %}" />
+          <img src="{% static 'staticpic/نشان ملی ثبت.png' %}" />
+          <img src="{% static 'staticpic/عضو اتحادیه کشوری.png' %}" />
+        </div>
+      </div>
+      <hr />
+      <div id="footerPartTwo">
+        <h5 style="font-weight: bold">
+          فروشگاه اینترنتی بست تیک بررسی، انتخاب و خرید آنلاین
+        </h5>
+        <p style="width: 50%">
+          یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند تیکتهای متنوع و
+          دارای قیمت مناسب را به دست مشتریان خود برساند ؛ ویژگی‌هایی که فروشگاه
+          اینترنتی بست تیک سال‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق
+          مشتریان ثابت خود را داشته باشد.
+        </p>
+      </div>
+    </footer>
+    <script src="{% static 'staticjs/MyScriptUserPanel.js' %}"></script>
+  </body>
+</html>

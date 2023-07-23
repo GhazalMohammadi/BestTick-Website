@@ -1,0 +1,539 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: IranSans;
+  src: url(../Font/IranSans/IRANSansWeb\(FaNum\).ttf);
+  src: url(../Font/IranSans/IRANSansWeb\(FaNum\)_Bold.ttf);
+  src: url(../Font/IranSans/IRANSansWeb\(FaNum\)_Light.ttf);
+}
+
+:root {
+  --bg-ColorMain: #eeeeee;
+  --bg-ColorNavbar: #003459;
+  --bg-ColorUserPanel: #b7f0f8;
+  --bg-ColorBtnSpecific: #16e0bd;
+  --bg-ColorBtn: #85efff;
+  --bg-ColorWarningBtn: #e34a6f;
+  /* Firefox Scrollbar Style */
+  scrollbar-color: #b7b7b7 #d9d9d9 !important;
+  scrollbar-width: thin !important;
+}
+
+body {
+  background: var(--bg-ColorMain);
+  font-family: "IranSans";
+  position: relative;
+  z-index: -5;
+}
+
+/* Top Comercial */
+#topComercial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0172ff;
+  width: 100%;
+  height: 3.5rem;
+  cursor: pointer;
+}
+
+/* Header Part */
+#headerWrapper {
+  position: fixed;
+  width: 100%;
+}
+
+#wrappeRight {
+  background: var(--bg-ColorNavbar);
+  width: 50%;
+  height: 6rem;
+  position: absolute;
+  z-index: -2;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+#wrapperLeft {
+  background: var(--bg-ColorNavbar);
+  width: 50%;
+  height: 6rem;
+  position: absolute;
+  z-index: -2;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Logo Style Part */
+#logoStyle {
+  width: 20%;
+  height: 3.5rem;
+  margin: 0 1vw 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  animation: logoAnimation 1.5s infinite;
+}
+#LogoIcon {
+  width: 65%;
+}
+
+@keyframes logoAnimation {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+/* Menu Button Style */
+#menuBtn {
+  background: var(--bg-ColorBtn);
+  height: 48px;
+  width: 48px;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#crossIconStyle {
+  position: absolute;
+  visibility: hidden;
+}
+
+/* Dropdown Location Btn style */
+#wrapperLocationList {
+  margin: 0 1vw 0 0;
+  width: 25%;
+}
+#wrapperLocationList #locationList {
+  padding: 0;
+  background: var(--bg-ColorMain);
+  height: 17rem;
+  overflow-y: scroll;
+  position: absolute;
+  z-index: 4;
+  width: 25%;
+  top: 4.4rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  text-align: center;
+  color: black;
+  visibility: hidden;
+  box-shadow: 0 1px 7px rgb(117, 117, 117);
+}
+.locationItemTag {
+  color: #000;
+  width: 100%;
+  text-decoration: none;
+}
+.locationItemTag:hover {
+  color: #000;
+  font-weight: bold;
+}
+.locationItem {
+  list-style-type: none;
+  padding: 7% 0;
+  cursor: pointer;
+  width: 100%;
+}
+.locationItemTag:not(:last-child) .locationItem {
+  border-bottom: 1px solid black;
+}
+
+#dropdownLocationBtn {
+  background: var(--bg-ColorBtn);
+  width: 25%;
+  height: 48px;
+  position: absolute;
+  z-index: 4;
+  top: 1.5rem;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+}
+#dropdownIcon {
+  margin: 0 1% 0 0;
+}
+/* Chrome Scrollbar Style */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #d9d9d9;
+}
+::-webkit-scrollbar-thumb {
+  background: #b7b7b7;
+  border-radius: 12px;
+}
+
+/* Serach Box Style */
+#SearchBox {
+  background: var(--bg-ColorMain);
+  height: 48px;
+  /* secondStatusWidth:16vw */
+  width: 0%;
+  position: absolute;
+  /* secondStatusRight:33.2vw */
+  right: 30.5vw;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+}
+#SearchBtnStyle {
+  background: var(--bg-ColorBtn);
+  height: 48px;
+  width: 48px;
+  position: absolute;
+  right: 30.5vw;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+}
+/* Search Result Part */
+#wrapperTotalListSearch {
+  background: var(--bg-ColorMain);
+  position: absolute;
+  right: 30.5vw;
+  top: 4.7rem;
+  width: 18.6vw;
+  box-shadow: 0 1px 5px gray;
+  border-radius: 0 0 0.5rem 0.5rem;
+  list-style-type: none;
+  margin: 0;
+  padding: 0 1rem;
+  /* overflow-y: scroll; */
+}
+.listBoxSearchItem {
+  padding: 7% 0;
+}
+.listBoxSearchItem:not(:last-child) {
+  border-bottom: 1px solid var(--bg-ColorNavbar);
+}
+.listSearchItem {
+  text-decoration: none;
+  color: #000;
+}
+.listSearchItem:hover {
+  color: #000;
+  font-weight: bold;
+}
+
+/* Shoppingcart btn Style */
+#ShoppingBagBtn {
+  background: var(--bg-ColorBtnSpecific);
+  height: 48px;
+  width: 48px;
+  margin: 0 0 0 2%;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+}
+.makingRedCircle {
+  background: var(--bg-ColorWarningBtn);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  position: absolute;
+  top: 3.2rem;
+  display: none;
+}
+
+/* Sign In and Sign Up Btn Style */
+#SignBtnStyle {
+  background-color: var(--bg-ColorBtnSpecific);
+  height: 48px;
+  width: 25%;
+  margin: 0 0 0 5%;
+  box-shadow: 0 1px 4px rgb(24, 24, 24);
+}
+#SignBtnStyle:hover {
+  background-color: transparent;
+  border: 1.5px solid var(--bg-ColorBtnSpecific);
+  color: var(--bg-ColorBtnSpecific);
+}
+
+/* Menu Side Part */
+#categoryText {
+  text-align: center;
+  color: white;
+  padding: 1.3rem 0 1.3rem 0;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  font-weight: bold;
+  font-size: 17px;
+  background-color: var(--bg-ColorNavbar);
+}
+#wrapperMenuSide {
+  background: #dedede;
+  box-shadow: -1px 1px 7px rgb(159, 159, 159);
+  position: fixed;
+  top: 9.5rem;
+  margin: 0;
+  z-index: -1;
+  width: 18.5%;
+  height: 37.5rem;
+  border-radius: 0 0 0 1rem;
+  /* Second Status Right:0 */
+  right: -20%;
+}
+#boxMenuActivity {
+  padding: 0;
+}
+.activityItem {
+  list-style-type: none;
+  padding: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.activityItem:not(:last-child) {
+  border-bottom: 1px solid white;
+}
+.activityItem a {
+  text-decoration: none;
+  color: black;
+}
+.activityItem :hover {
+  font-weight: bold;
+}
+
+/* User Panel Total Part */
+.wrapperTotalPanelUser {
+  width: 100%;
+  height: 46rem;
+  position: relative;
+  z-index: -5;
+  top: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.wrapperTotalTitlePartPanel {
+  width: 95%;
+  height: 4rem;
+  background: #dcdcdc;
+  border-radius: 0.8rem 0.8rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 10px gray;
+}
+#userNameStyleTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 2rem 0 0;
+}
+#wrapperTwoLinksExitAndChangePass {
+  display: flex;
+  margin: 0 0 0 2rem;
+}
+#changePassStyle {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  margin: 0 0 0 1rem;
+}
+#changePassStyle:hover {
+  color: var(--bg-ColorBtnSpecific);
+}
+#exitStyle {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  margin: 0 1rem 0 0;
+}
+#exitStyle:hover {
+  color: var(--bg-ColorWarningBtn);
+}
+.wrapperTotalBodyMainPanelStyle {
+  position: relative;
+  z-index: -5;
+  width: 95%;
+  height: 40rem;
+  background: #dcdcdc;
+  border-radius: 0 0 1.3rem 1.3rem;
+  box-shadow: 0 1px 10px gray;
+  margin: 0 0 0.8rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wrapperChoiceListUser {
+  width: 100%;
+  display: flex;
+  padding: 0;
+  height: 6.5rem;
+}
+.ChoiceItemList {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  background: #dcdcdc;
+  box-shadow: 0 1px 5px gray;
+  justify-content: center;
+  align-items: center;
+  width: 33.33%;
+  cursor: pointer;
+  transition: 1s;
+}
+/* .ChoiceItemList:hover {
+    background: #003459;
+    transition: 1s;
+  } */
+.choiceItemStyle {
+  text-decoration: none;
+  color: #000;
+  /* font-size: 1.1rem; */
+  font-weight: bold;
+  margin: 0.7rem 0 0 0;
+}
+.choiceItemStyle:hover {
+  color: #000;
+}
+
+.IconStyleForUserPanel {
+  width: 2.5rem;
+}
+
+/* Form For List Of Options */
+.wrapperTotalFormsAndDatas {
+  position: relative;
+  z-index: -5;
+  top: -0.5rem;
+  /* background: red; */
+  /* opacity: 0.5; */
+  width: 100%;
+  height: 37rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapperFormEditingProfile {
+  position: absolute;
+  z-index: -3;
+  width: 97%;
+  height: 31.5rem;
+  background: #b7f0f8;
+  border: 2px solid #6b98e2;
+  border-radius: 0 0 0.9rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  /* display: none; */
+}
+.wrapperTotalRowOne {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.wrapperTotalInput {
+  width: 80%;
+}
+.styleForLabels {
+  font-weight: bold;
+  display: block;
+}
+.styleForInputs {
+  background: #fff;
+  width: 100%;
+  height: 3rem;
+}
+
+.wrapperTotalPhone {
+  width: 80%;
+}
+.Dropdownstyle {
+  width: 30%;
+  color: #fff;
+  background: var(--bg-ColorNavbar);
+  height: 3rem;
+  box-shadow: 0 0.5px 2px gray;
+}
+.Dropdownstyle:hover {
+  color: #fff;
+}
+.submitAllChanges {
+  width: 30%;
+  background: var(--bg-ColorBtnSpecific);
+  box-shadow: 0 0.5px 2px gray;
+}
+.submitAllChanges:hover {
+  background: transparent;
+  border: 1.5px solid var(--bg-ColorBtnSpecific);
+  color: var(--bg-ColorBtnSpecific);
+}
+
+.wrapperFormBestTickThatIbought {
+  position: absolute;
+  z-index: -4;
+  width: 97%;
+  height: 31.5rem;
+  background: #b7f0f8;
+  border: 2px solid #eb5549;
+  border-radius: 0 0 0.9rem 0.9rem;
+  /* display: none; */
+}
+.tableStyle {
+  width: 95%;
+  margin: auto;
+  margin-top: 1rem;
+}
+.tableStyle tr th {
+  text-align: center;
+  background: var(--bg-ColorNavbar);
+  color: #fff;
+  padding: 0.7rem 0;
+  border-left: 1px solid #fff;
+}
+.tableStyle tr th:last-child {
+  border: none;
+}
+.wrapperFormMyTransaction {
+  position: absolute;
+  z-index: -5;
+  width: 97%;
+  height: 31.5rem;
+  background: #b7f0f8;
+  border: 2px solid #55db6d;
+  border-radius: 0 0 0.9rem 0.9rem;
+  /* display: none; */
+}
+
+/* footer */
+#footerStyle {
+  background: #e3e3e3;
+  width: 100%;
+  height: 35rem;
+  position: relative;
+  z-index: -4;
+  top: 20rem;
+  box-shadow: 0px -2px 10px rgb(182, 182, 182);
+}
+#footerPartOne {
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem 0 3rem 0;
+}
+#wrapperBoxOne {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 3rem 0 0;
+}
+#footerPartTwo {
+  margin: 6rem 3rem 0 0;
+}
+#wrapperBoxTwo {
+  margin: 0 0 0 3rem;
+  font-size: 1.2rem;
+}
+
+.hiddenFormStyle {
+  display: none;
+}

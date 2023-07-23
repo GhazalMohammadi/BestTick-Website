@@ -1,0 +1,716 @@
+{% load static %}
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+      integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N"
+      crossorigin="anonymous"
+    />
+    <!-- Jquery -->
+    <script src="{% static 'jquery.min.js' %}"></script>
+    <link
+      rel="stylesheet"
+      href="{% static 'staticcss/MyStyleMainPage.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'staticcss/PicStyle.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'staticcss/ResponsiveStyleMainPage.css' %}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Top Comercial -->
+    {% for item in picOfTopCommercial %}
+    <a
+      href="/{{mainLocationEnglish}}/Category/{{item.image_ProductCategory.slug}}"
+      id="topComercial"
+    >
+      <img src="/media/{{item.image}}" id="topCommercialPic" />
+    </a>
+    {% endfor %}
+
+    <!-- HeaderPart -->
+    <header id="headerWrapper">
+      <div id="wrappeRight">
+        <!-- Logo part -->
+        <div id="logoStyle">
+          <img
+            src="{% static 'staticsvg/BestTick Logo (2).svg' %}"
+            id="LogoIcon"
+          />
+        </div>
+
+        <!-- Menu Button -->
+        <button
+          type="menu"
+          class="btn"
+          id="menuBtn"
+          onclick="clickingmenuButton()"
+        >
+          <img
+            src="{% static 'staticsvg/menu-svgrepo-com-3.svg' %}"
+            id="menuIconStyle"
+          />
+          <img
+            src="{% static 'staticsvg/cross-svgrepo-com1.svg' %}"
+            id="crossIconStyle"
+          />
+        </button>
+
+        <!-- Location Button Part -->
+        <div id="wrapperLocationList">
+          <ul id="locationList">
+            {% for location in mylocations %}
+            <a
+              href="/{{location.slug}}/"
+              class="locationItemTag"
+              onclick="sendingSelectedLocation('{{location.name}}')"
+            >
+              <li class="locationItem">{{location.name}}</li>
+            </a>
+            {% endfor %}
+          </ul>
+
+          <button
+            type="button"
+            class="btn"
+            id="dropdownLocationBtn"
+            onclick="clickingdropdownLocationBtn()"
+          >
+            {{mainLocation}}
+            <img
+              src="{% static 'staticsvg/dropdown-svgrepo-com.svg' %}"
+              id="dropdownIcon"
+            />
+          </button>
+        </div>
+
+        <!-- SearchBox Part -->
+        <input
+          type="search"
+          name="Search"
+          class="btn"
+          id="SearchBox"
+          placeholder="جستجو کنید"
+          onkeyup="searchingProcess()"
+        />
+        <button class="btn" id="SearchBtnStyle" onclick="clickingSearchBtn()">
+          <img
+            src="{% static 'staticsvg/search-svgrepo-com.svg' %}"
+            id="SerachIconStyle"
+          />
+        </button>
+        <ul id="wrapperTotalListSearch">
+          <!-- <li class="listBoxSearchItem">
+              <a href="ww." class="listSearchItem">خانه</a>
+            </li> -->
+        </ul>
+      </div>
+      <div id="wrapperLeft">
+        <!-- Shopping Button Part -->
+        <button
+          class="btn"
+          id="ShoppingBagBtn"
+          onclick="location.href='/{{mainLocationEnglish}}/User/ShoppingCart'"
+        >
+          <img
+            src="{% static 'staticsvg/shopping-bag-svgrepo-com.svg' %}"
+            id="ShoppingBagIconStyle"
+            alt="ShoppingCartButton"
+          />
+          <div class="makingRedCircle" id="quantityOfProductAdded"></div>
+        </button>
+
+        <!-- Sign In & Sign Up -->
+        {%if user.is_authenticated == False%}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/{{mainLocationEnglish}}/customer/login'"
+        >
+          ورود / ثبت نام
+        </button>
+        {%else%}
+        <button
+          type="button"
+          class="btn"
+          id="SignBtnStyle"
+          onclick="location.href='/{{mainLocationEnglish}}/User/Dashboard/'"
+        >
+          {{user.username}}
+        </button>
+        {%endif%}
+
+        <!-- <button
+        type="button"
+        class="btn"
+        id="SignBtnStyle"
+        onclick="location.href='User/Dashboard/'"
+        value="{{mainLocationEnglish}}"
+      >
+        {{request.user}}
+      </button> -->
+      </div>
+    </header>
+
+    <!-- Main Part -->
+    <div id="wrapperTotal">
+      <div id="wrapperMenuSide">
+        <p id="categoryText">دسته بندی</p>
+        <ul id="boxMenuActivity">
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('PricePic')"
+            id="bestTickOfTheDayCategory"
+            value="1"
+            onclick="sendingDataOfCategoryToCategoryPage('bestTickOfTheDayCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Price_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="PricePic"
+            /><a href="Categories/BestTickOfToday/">بست تیک های امروز</a>
+          </li>
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('ClockPic')"
+            id="lastMinutesTicketsCategory"
+            value="2"
+            onclick="sendingDataOfCategoryToCategoryPage('lastMinutesTicketsCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Clock_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="ClockPic"
+            /><a href="Categories/LastMinutes/">لحظه آخری</a>
+          </li>
+          {% for item in categoryOfProducts%}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('{{item.slug}}Pic')"
+            id="{{item.slug}}Category"
+          >
+            <img
+              src="/media/{{item.image}}"
+              class="picOfSideMenu"
+              id="{{item.slug}}Pic"
+            /><a href="Category/{{item.slug}}">{{item.name}}</a>
+          </li>
+          {% endfor %}
+          <li
+            class="activityItem"
+            onmouseover="animatingPics('DiscountPic')"
+            id="salesCodeCategory"
+            value="8"
+            onclick="sendingDataOfCategoryToCategoryPage('salesCodeCategory','li')"
+          >
+            <img
+              src="{% static 'staticpic/Discount_perspective_matte.png' %}"
+              class="picOfSideMenu"
+              id="DiscountPic"
+            /><a href="/Category/Discount/">کد تخفیف</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Slider Part -->
+      <div style="width: 100%" class="wrapperTotalSlider">
+        <img
+          src="{% static 'staticsvg/up-arrow-svgrepo-com (1).svg' %}"
+          id="ArrowRightIcon"
+          onclick="animatingSliderRight()"
+        />
+        {% for item in threePicOfSlider %}
+        <a
+          href="/{{mainLocationEnglish}}/Category/{{item.image_ProductCategory.slug}}/"
+          ><img
+            src="/media/{{item.image}}"
+            class="picOfSlider"
+            id="picOf{{item.id}}Slide"
+            alt="4"
+            onclick="sendingDataOfCategoryToCategoryPage(`picOfFirstSlide`,`img`)"
+        /></a>
+        {% endfor %}
+        <img
+          src="{% static 'staticsvg/up-arrow-svgrepo-com (1).svg' %}"
+          id="ArrowLeftIcon"
+          onclick="animatingSliderLeft()"
+        />
+      </div>
+    </div>
+
+    <!-- Top Hit -->
+    <div id="wrapperTotalTopHitPic">
+      <div id="wrapperImages">
+        {% for item in threePicOfTopHits %}
+        <a
+          href="/{{mainLocationEnglish}}/Category/{{item.image_ProductCategory.slug}}/"
+          ><img
+            src="/media/{{item.image}}"
+            class="topHitPicStyle"
+            id="topHit{{item.id}}Pic"
+            alt="3"
+            onclick="sendingDataOfCategoryToCategoryPage(`topHitResturant`,`img`)"
+        /></a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Best Offer -->
+    <div id="wrapperTitle">
+      <div class="titleBestOffer">
+        <p style="margin: 0">پیشنهادات ویژه بست تیک</p>
+      </div>
+      <div class="BlueLine"></div>
+    </div>
+    <div id="wrapperContentOfBestOfer">
+      <!-- ------------------------------------------------------------------------------------- -->
+      <!-- ----------------------------------------------------------------------------------------------- -->
+      <!-- MAKE 4 BOX WITH DJANGO -->
+      {% for item in filteredProductsWith_BestOffer %}
+      <div class="boxOfContent">
+        <div class="wrapperPurchaseBtn" id="wrapperFirst">
+          <button
+            type="button"
+            class="btn PurchaseButtonStyle"
+            onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+          >
+            مشاهده و خرید
+          </button>
+        </div>
+        <img src="/media/{{item.image}}" class="PicOfBestOferStyle" />
+        <div class="wrapperTextBestOffer1">
+          <p style="margin: 0; padding: 0 5px 0 0" class="textNameLocation">
+            {{item.title}}
+          </p>
+          <div class="wrapperCounterShopping">
+            <p style="margin: 6.5px 0 0 10px">7</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="ShoppingCartIconStyle"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextBestOffer2">
+          <div class="wrapperLocation">
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="locationIconStyle"
+            />
+            <p class="LocationStyle">{{item.location}}</p>
+          </div>
+
+          <div class="wrapperTotalPrice">
+            <p class="PriceStyle">{{item.new_Price}} تومان</p>
+            <p class="salesStyle">{{item.calculatingSalesPercent}}%</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- ------------------------------------------------------------------------------------- -->
+      <!-- ----------------------------------------------------------------------------------------------- -->
+    </div>
+
+    <!-- Resturant Options -->
+    <div id="wrapperTitleResturant">
+      <div class="titleBestOffer">
+        <p style="margin: 0">رستوران و کافی شاپ</p>
+      </div>
+      <div class="BlueLine"></div>
+    </div>
+    <div id="WrapperOfResturantContent">
+      <!-- main item -->
+      {% for item in filteredProductsWith_RestaurantCategoryTopItem %}
+      <div class="boxOfContentResturant wrapperBoxitem1">
+        <img src="/media/{{item.image}}" class="PicOfResturantOptionStyle" />
+        <div class="wrapperTextResturantHugeContent1">
+          <p class="titleMainForHugeBoxContent">{{item.title}}</p>
+          <div class="wrappertotalIconandNums">
+            <p style="padding: 1rem 0 0 1rem">300</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="iconShoppingHugeContent"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextResturantHugeContent2">
+          <p class="salePercentStyleHugeContent">
+            {{item.calculatingSalesPercent}}%
+          </p>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="LocationIconHugeContent"
+            />
+            <p class="wrapperLocationHugeContent">{{item.location}}</p>
+          </div>
+          <div style="display: flex; margin: 0 0 0 1rem; align-items: center">
+            <p style="font-size: 1.1rem; margin: 0 0 0 1rem">
+              {{item.new_Price}} تومان
+            </p>
+            <button
+              type="button"
+              class="btn PurchaseButtonStyleHugeContent"
+              onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+            >
+              مشاهده و خرید
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- ---------------------------------------------------------------------------------- -->
+      <!-- MAKE 3 BOX OF ITEM WITH DJANGO -->
+      {% for item in filteredProductsWith_RestaurantCategory%}
+      <div class="boxOfContentResturant" id="wrapperBoxRestueant2">
+        <div class="wrapperPurchaseBtnResturant">
+          <button
+            type="button"
+            class="btn PurchaseButtonStyle"
+            onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+          >
+            مشاهده و خرید
+          </button>
+        </div>
+        <img src="/media/{{item.image}}" class="PicOfBestOferStyle" />
+        <div class="wrapperTextBestOffer1">
+          <p style="margin: 0; padding: 0 5px 0 0">{{item.title}}</p>
+          <div class="wrapperCounterShopping">
+            <p style="margin: 6.5px 0 0 10px">7</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="ShoppingCartIconStyle"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextBestOffer2">
+          <div class="wrapperLocation">
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="locationIconStyle"
+            />
+            <p class="LocationStyle">{{item.location}}</p>
+          </div>
+
+          <div class="wrapperTotalPrice">
+            <p class="PriceStyle">{{item.new_Price}} تومان</p>
+            <p class="salesStyle">{{item.calculatingSalesPercent}}%</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- -------------------------------------------------------------------------------------- -->
+
+      <!-- ------------------------------------------------------------------------------------------- -->
+      {% for item in counterOfRestaurantProduct %}
+      <div
+        class="boxOfContentResturant wrapperBoxitem5"
+        onmouseover="animatingPics('PicOfFoodResturantOption')"
+      >
+        <img
+          src="{% static 'staticpic/French_fries_perspective_matte.png' %}"
+          id="PicOfFoodResturantOption"
+          class="hugeIconForContent"
+        />
+        <p>{{item}} پیشنهاد موجود است</p>
+        <a
+          href="/{{mainLocationEnglish}}/Category/Restaurant"
+          class="wrapperTotalSeeMoreBtn"
+          ><button
+            type="button"
+            class="btn btnSeeMore"
+            id="seeMoreResturant"
+            value="3"
+            onclick="sendingDataOfCategoryToCategoryPage(`seeMoreResturant`,`btn`)"
+          >
+            مشاهده همه
+          </button></a
+        >
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- banner for restaurant option -->
+    {% for item in bannerOfRestaurant %}
+    <a
+      id="bannerResturantOptions"
+      href="/{{mainLocationEnglish}}/Category/Restaurant"
+    >
+      <img
+        src="/media/{{item.image}}"
+        alt="3"
+        class="bannersStyle"
+        id="resturantBanner"
+        onclick="sendingDataOfCategoryToCategoryPage(`resturantBanner`,`img`)"
+      />
+    </a>
+    {% endfor %}
+
+    <!-- Intertainment Part -->
+    <div id="wrapperTitleIntertainment">
+      <div class="titleBestOffer">
+        <p style="margin: 0">تفریحی و سرگرمی</p>
+      </div>
+      <div class="BlueLine"></div>
+    </div>
+    <div id="WrapperOfIntertainmentContent">
+      <!-- Main Item -->
+      {% for item in filteredProductsWith_EntertainmentCategoryTopItem %}
+      <div class="boxOfContentResturant wrapperBoxitem1">
+        <img src="/media/{{item.image}}" class="PicOfResturantOptionStyle" />
+        <div class="wrapperTextResturantHugeContent1">
+          <p class="titleMainForHugeBoxContent">{{item.title}}</p>
+          <div class="wrappertotalIconandNums">
+            <p style="padding: 1rem 0 0 1rem">300</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="iconShoppingHugeContent"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextResturantHugeContent2">
+          <p class="salePercentStyleHugeContent">
+            {{item.calculatingSalesPercent}}%
+          </p>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="LocationIconHugeContent"
+            />
+            <p class="wrapperLocationHugeContent">{{item.location}}</p>
+          </div>
+          <div style="display: flex; margin: 0 0 0 1rem; align-items: center">
+            <p style="font-size: 1.1rem; margin: 0 0 0 1rem">
+              {{item.new_Price}} تومان
+            </p>
+            <button
+              type="button"
+              class="btn PurchaseButtonStyleHugeContent"
+              onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+            >
+              مشاهده و خرید
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- ----------------------------------------------------------------------------------- -->
+      <!-- MAKE 3 ITEMS WITH DJANGO -->
+      {% for item in filteredProductsWith_EntertainmentCategory%}
+      <div class="boxOfContentResturant" id="wrapperBoxEntertainment2">
+        <div class="wrapperPurchaseBtnResturant">
+          <button
+            type="button"
+            class="btn PurchaseButtonStyle"
+            onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+          >
+            مشاهده و خرید
+          </button>
+        </div>
+        <img src="/media/{{item.image}}" class="PicOfBestOferStyle" />
+        <div class="wrapperTextBestOffer1">
+          <p style="margin: 0; padding: 0 5px 0 0">{{item.title}}</p>
+          <div class="wrapperCounterShopping">
+            <p style="margin: 6.5px 0 0 10px">7</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="ShoppingCartIconStyle"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextBestOffer2">
+          <div class="wrapperLocation">
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="locationIconStyle"
+            />
+            <p class="LocationStyle">{{item.location}}</p>
+          </div>
+
+          <div class="wrapperTotalPrice">
+            <p class="PriceStyle">{{item.new_Price}} تومان</p>
+            <p class="salesStyle">{{item.calculatingSalesPercent}}%</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- ------------------------------------------------------------------------------------------------ -->
+
+      <!-- ----------------------------------------------------------------------------------------------------- -->
+      {% for item in counterOfEntertainmentProduct %}
+      <div
+        class="boxOfContentResturant wrapperBoxitem5"
+        onmouseover="animatingPics('PicOfNatureIntertainmentOption')"
+      >
+        <img
+          src="{% static 'staticpic/perspective_matte.png' %}"
+          id="PicOfNatureIntertainmentOption"
+          class="hugeIconForContent"
+        />
+        <p>{{item}} پیشنهاد موجود است</p>
+        <a
+          href="/{{mainLocationEnglish}}/Category/Entertainment"
+          class="wrapperTotalSeeMoreBtn"
+          ><button
+            type="button"
+            class="btn btnSeeMore"
+            id="seeMoreEntertainment"
+            value="4"
+            onclick="sendingDataOfCategoryToCategoryPage(`seeMoreEntertainment`,`btn`)"
+          >
+            مشاهده همه
+          </button></a
+        >
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- banner for entertainment -->
+    {% for item in bannerOfEntertainment %}
+    <a
+      id="bannerIntertainmentOptions"
+      href="/{{mainLocationEnglish}}/Category/Entertainment"
+    >
+      <img
+        src="/media/{{item.image}}"
+        alt="4"
+        class="bannersStyle"
+        id="entertainmentBanner"
+        onclick="sendingDataOfCategoryToCategoryPage(`entertainmentBanner`,`img`)"
+      />
+    </a>
+    {% endfor %}
+
+    <!-- Best Ticket For Today Title -->
+    <div id="wrapperTitleBestTickForToday">
+      <div class="titleBestOffer">
+        <p style="margin: 0">بست تیک های امروز</p>
+      </div>
+      <div class="BlueLine"></div>
+    </div>
+    <!-- Best Tick For Today Part -->
+    <div id="wrapperContentOfBestTickToday">
+      <!-- ----------------------------------------------------------------------------------------------- -->
+      <!-- MAKE 3 ITEMS WITH DJANGO -->
+      {% for item in filteredProductsWith_BestTickOfToday %}
+      <div class="boxOfContent">
+        <div class="wrapperPurchaseBtn" id="wrapperFirst">
+          <button
+            type="button"
+            class="btn PurchaseButtonStyle"
+            onclick="location.href='/{{mainLocationEnglish}}/Ticket/{{item.slug}}/'"
+          >
+            مشاهده و خرید
+          </button>
+        </div>
+        <img src="/media/{{item.image}}" class="PicOfBestOferStyle" />
+        <div class="wrapperTextBestOffer1">
+          <p style="margin: 0; padding: 0 5px 0 0">{{item.title}}</p>
+          <div class="wrapperCounterShopping">
+            <p style="margin: 6.5px 0 0 10px">7</p>
+            <img
+              src="{% static 'staticsvg/shopping-cart-svgrepo2-com.svg' %}"
+              class="ShoppingCartIconStyle"
+            />
+          </div>
+        </div>
+        <div class="wrapperTextBestOffer2">
+          <div class="wrapperLocation">
+            <img
+              src="{% static 'staticsvg/location-svgrepo-com.svg' %}"
+              class="locationIconStyle"
+            />
+            <p class="LocationStyle">{{item.location}}</p>
+          </div>
+
+          <div class="wrapperTotalPrice">
+            <p class="PriceStyle">{{item.new_Price}} تومان</p>
+            <p class="salesStyle">{{item.calculatingSalesPercent}}%</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- ---------------------------------------------------------------------------------------------------- -->
+
+      <!-- ----------------------------------------------------------------------------------------------- -->
+      {% for item in counterOfBestTickOfTodayProduct %}
+      <div
+        class="boxOfContent"
+        id="BoxContent4"
+        onmouseover="animatingPics('PricePicStyleHugeIcon')"
+      >
+        <img
+          src="{% static 'staticpic/Price_perspective_matte.png' %}"
+          alt="PricePic"
+          id="PricePicStyleHugeIcon"
+          class="hugeIconForContent"
+        />
+        <p>{{item}} پیشنهاد موجود است</p>
+        <a
+          href="/{{mainLocationEnglish}}/Categories/BestTickOfToday"
+          class="wrapperTotalSeeMoreBtn"
+          ><button
+            type="button"
+            class="btn btnSeeMore"
+            id="seeMoreBestTickToday"
+            value="1"
+            onclick="sendingDataOfCategoryToCategoryPage(`seeMoreBestTickToday`,`btn`)"
+          >
+            مشاهده همه
+          </button></a
+        >
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- footer part -->
+    <footer id="footerStyle">
+      <div id="footerPartOne">
+        <div id="wrapperBoxOne">
+          <p><strong>پشتیبانی</strong> : 42024 - 021</p>
+          <p><strong>شرکت</strong> : 88575757 - 021</p>
+        </div>
+
+        <div id="wrapperBoxTwo">
+          <img src="{% static 'staticpic/نماد اعتماد.png' %}" />
+          <img src="{% static 'staticpic/نشان ملی ثبت.png' %}" />
+          <img src="{% static 'staticpic/عضو اتحادیه کشوری.png' %}" />
+        </div>
+      </div>
+      <hr />
+      <div id="footerPartTwo">
+        <h5 style="font-weight: bold">
+          فروشگاه اینترنتی بست تیک بررسی، انتخاب و خرید آنلاین
+        </h5>
+        <p style="width: 50%">
+          یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند تیکتهای متنوع و
+          دارای قیمت مناسب را به دست مشتریان خود برساند ؛ ویژگی‌هایی که فروشگاه
+          اینترنتی بست تیک سال‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق
+          مشتریان ثابت خود را داشته باشد.
+        </p>
+      </div>
+    </footer>
+    <script src="{% static 'staticjs/MyScriptCategoryLocationMainWebPage.js' %}"></script>
+  </body>
+</html>

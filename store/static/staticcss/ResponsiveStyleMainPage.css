@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: IranSans;
+  src: url(./Font/IranSans/IRANSansWeb\(FaNum\).ttf);
+  src: url(./Font/IranSans/IRANSansWeb\(FaNum\)_Bold.ttf);
+  src: url(./Font/IranSans/IRANSansWeb\(FaNum\)_Light.ttf);
+}
+:root {
+  --bg-ColorMain: #eeeeee;
+  --bg-ColorNavbar: #003459;
+  --bg-ColorBtnSpecific: #16e0bd;
+  --bg-ColorBtn: #85efff;
+  --bg-ColorWarningBtn: #e34a6f;
+  /* Firefox Scrollbar Style */
+  scrollbar-color: #b7b7b7 #d9d9d9 !important;
+  scrollbar-width: thin !important;
+}
+
+body {
+  background: var(--bg-ColorMain);
+  font-family: "IranSans";
+  position: relative;
+  z-index: -5;
+}
+@media screen and (max-width: 1230px) {
+  .LocationStyle {
+    font-size: 0.8rem;
+  }
+  .PriceStyle {
+    font-size: 0.8rem;
+  }
+  .salesStyle {
+    font-size: 0.8rem;
+  }
+  .textNameLocation {
+    font-size: 0.8rem;
+  }
+  .PurchaseButtonStyle {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1126px) {
+  .boxOfContent {
+    width: 22.2%;
+    margin: 0 0 0 1rem;
+  }
+  .wrapperPurchaseBtn {
+    width: 22.2%;
+  }
+  .PurchaseButtonStyle {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1072px) {
+  .activityItem a {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .activityItem a {
+    font-size: 0.8rem;
+  }
+  #wrapperTotalTopHitPic {
+    display: none;
+  }
+  .boxOfContent {
+    height: 17.3rem;
+  }
+  .wrapperPurchaseBtn {
+    height: 55%;
+  }
+  .wrapperTextBestOffer1 {
+    margin: 0.4rem 0 0 0;
+  }
+  #WrapperOfResturantContent {
+    gap: 13px;
+    grid-template-columns: 23% 23% 23% 23%;
+  }
+  .wrapperPurchaseBtnResturant {
+    width: 23%;
+    height: 29.5%;
+  }
+  #WrapperOfIntertainmentContent {
+    gap: 13px;
+    grid-template-columns: 23% 23% 23% 23%;
+  }
+  #wrapperTitle {
+    top: 50rem;
+  }
+  #wrapperContentOfBestOfer {
+    top: 53.5rem;
+  }
+  #wrapperTitleResturant {
+    top: 58rem;
+  }
+  #WrapperOfResturantContent {
+    top: 61.5rem;
+  }
+  #bannerResturantOptions {
+    top: 63rem;
+  }
+  #wrapperTitleIntertainment {
+    top: 69rem;
+  }
+  #WrapperOfIntertainmentContent {
+    top: 72.5rem;
+  }
+  #bannerIntertainmentOptions {
+    top: 74rem;
+  }
+  #wrapperTitleBestTickForToday {
+    top: 80rem;
+  }
+  #wrapperContentOfBestTickToday {
+    top: 83.5rem;
+  }
+  #footerStyle {
+    top: 88.5rem;
+  }
+  #wrapperMenuSide {
+    width: 22%;
+    right: -25%;
+  }
+  .hugeIconForContent {
+    width: 4rem !important;
+  }
+  .wrapperLocationHugeContent {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+  }
+  .PurchaseButtonStyleHugeContent {
+    width: 8rem;
+  }
+}
+
+@media screen and (max-width: 978px) {
+  .PicOfBestOferStyle {
+    height: 50%;
+  }
+  .wrapperPurchaseBtnResturant {
+    height: 24.5%;
+  }
+  .wrapperPurchaseBtn {
+    height: 45.5%;
+  }
+  .LocationStyle {
+    font-size: 0.75rem;
+  }
+}
+@media screen and (max-width: 950px) {
+  .PicOfResturantOptionStyle {
+    height: 67%;
+  }
+}
+
+@media screen and (max-width: 939px) {
+  #SignBtnStyle {
+    font-size: 0.9rem;
+  }
+  #ShoppingBagIconStyle {
+    width: 1.3rem;
+  }
+  #dropdownLocationBtn {
+    font-size: 0.9rem;
+  }
+}
